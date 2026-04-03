@@ -1119,7 +1119,7 @@
     <div class="modal">
       <div class="modal-title">Connect AI Provider</div>
       <div class="modal-sub">Choose your preferred AI and bring your own API key.</div>
-      
+
       <div class="prov-tabs">
         <div class="prov-tab act" id="pt-gemini" onclick="setProvider('gemini')">Gemini</div>
         <div class="prov-tab" id="pt-groq" onclick="setProvider('groq')">Groq</div>
@@ -1128,10 +1128,12 @@
 
       <div class="steps-box">
         <div class="step">
-          <div class="sn">1</div><span id="st-link">Open <a href="https://aistudio.google.com/apikey" target="_blank" id="st-a">aistudio.google.com/apikey</a></span>
+          <div class="sn">1</div><span id="st-link">Open <a href="https://aistudio.google.com/apikey" target="_blank"
+              id="st-a">aistudio.google.com/apikey</a></span>
         </div>
         <div class="step">
-          <div class="sn">2</div><span id="st-auth">Sign in with Google → Click <b style="color:var(--t1)">Create API Key</b></span>
+          <div class="sn">2</div><span id="st-auth">Sign in with Google → Click <b style="color:var(--t1)">Create API
+              Key</b></span>
         </div>
         <div class="step">
           <div class="sn">3</div><span>Copy the key and paste it below</span>
@@ -1774,28 +1776,28 @@
     // API PROVIDER CONFIG
     const PROVIDERS = {
       gemini: {
-        name: "Gemini", 
-        linkUrl: "https://aistudio.google.com/apikey", 
-        linkText: "aistudio.google.com/apikey", 
-        authText: "Sign in with Google", 
+        name: "Gemini",
+        linkUrl: "https://aistudio.google.com/apikey",
+        linkText: "aistudio.google.com/apikey",
+        authText: "Sign in with Google",
         placeholder: "AIza..."
       },
       groq: {
-        name: "Groq", 
-        linkUrl: "https://console.groq.com/keys", 
-        linkText: "console.groq.com/keys", 
-        authText: "Log in", 
+        name: "Groq",
+        linkUrl: "https://console.groq.com/keys",
+        linkText: "console.groq.com/keys",
+        authText: "Log in",
         placeholder: "gsk_..."
       },
       openai: {
-        name: "OpenAI", 
-        linkUrl: "https://platform.openai.com/api-keys", 
-        linkText: "platform.openai.com/api-keys", 
-        authText: "Log in", 
+        name: "OpenAI",
+        linkUrl: "https://platform.openai.com/api-keys",
+        linkText: "platform.openai.com/api-keys",
+        authText: "Log in",
         placeholder: "sk-..."
       }
     };
-    
+
     let activeProv = localStorage.getItem("bai_provider") || "gemini";
     if (localStorage.getItem("bai_v2_key") && !localStorage.getItem("bai_key_gemini")) {
       localStorage.setItem("bai_key_gemini", localStorage.getItem("bai_v2_key"));
@@ -1806,7 +1808,7 @@
       localStorage.setItem("bai_provider", prov);
       document.querySelectorAll(".prov-tab").forEach(t => t.classList.remove("act"));
       document.getElementById("pt-" + prov).classList.add("act");
-      
+
       document.getElementById("st-a").href = PROVIDERS[prov].linkUrl;
       document.getElementById("st-a").textContent = PROVIDERS[prov].linkText;
       document.getElementById("st-auth").innerHTML = `${PROVIDERS[prov].authText} → Click <b style="color:var(--t1)">Create API Key</b>`;
@@ -1815,9 +1817,9 @@
     }
 
     // API KEY
-    function openModal() { 
+    function openModal() {
       setProvider(activeProv);
-      document.getElementById("modal").classList.add("open"); 
+      document.getElementById("modal").classList.add("open");
     }
     function closeModal() { document.getElementById("modal").classList.remove("open"); }
     function saveKey() {
@@ -1903,7 +1905,7 @@ Keys: ${platList.map(p => p.id).join(", ")}`;
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
             body: JSON.stringify({
-              model: "llama3-70b-8192",
+              model: "llama-3.3-70b-versatile",
               messages: [{ role: "user", content: prompt }],
               temperature: 0.7,
               response_format: { type: "json_object" }
