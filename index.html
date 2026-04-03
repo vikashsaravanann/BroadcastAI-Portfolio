@@ -1944,7 +1944,7 @@ Keys: ${platList.map(p => p.id).join(", ")}`;
             <div><div class="p-name">${p.name}</div><div class="p-chars">${chars} characters</div></div>
           </div>
           <div class="rcard-actions">
-            <button class="copy-btn" onclick="doCopy(this,'${encodeURIComponent(text)}')">Copy</button>
+            <button class="copy-btn" onclick="doCopy(this,'${encodeURIComponent(text).replace(/'/g, "%27")}')">Copy</button>
           </div>
         </div>
         <div class="rcard-body"><div class="rtext">${text}</div></div>`;
@@ -2060,7 +2060,7 @@ Keys: ${platList.map(p => p.id).join(", ")}`;
           <div><div class="p-name">${p.name}</div><div class="p-chars">${text.length} characters</div></div>
         </div>
         <div class="rcard-actions">
-          <button class="copy-btn" onclick="doCopy(this,'${encodeURIComponent(text)}')">Copy</button>
+          <button class="copy-btn" onclick="doCopy(this,'${encodeURIComponent(text).replace(/'/g, "%27")}')">Copy</button>
         </div>
       </div>
       <div class="rcard-body"><div class="rtext">${text}</div></div>
