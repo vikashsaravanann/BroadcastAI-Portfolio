@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BroadcastAI — Social Media Marketing Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07070d;
+      --s1: #0e0e18;
+      --s2: #14141f;
+      --s3: #1c1c2a;
+      --b1: rgba(255, 255, 255, 0.06);
+      --b2: rgba(255, 255, 255, 0.11);
+      --b3: rgba(255, 255, 255, 0.18);
+      --t1: #eeeef8;
+      --t2: #9898b0;
+      --t3: #5c5c78;
+      --accent: #6c5ce7;
+      --accent-l: #a29bfe;
+      --accent-bg: rgba(108, 92, 231, 0.12);
+      --accent-bdr: rgba(108, 92, 231, 0.35);
+      --green: #00cec9;
+      --green-bg: rgba(0, 206, 201, 0.1);
+      --amber: #fdcb6e;
+      --amber-bg: rgba(253, 203, 110, 0.1);
+      --red: #ff7675;
+      --red-bg: rgba(255, 118, 117, 0.1);
+      --r: 14px;
+      --r-sm: 9px;
+      --r-xs: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--t1);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--s3);
+      border-radius: 99px;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+      border-bottom: 1px solid var(--b1);
+      background: rgba(7, 7, 13, 0.95);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--t1);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-tag {
+      font-size: 10px;
+      color: var(--t3);
+      margin-left: 4px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .api-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      border: 1px solid var(--b2);
+      background: var(--s1);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--t2);
+      transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .api-pill:hover {
+      border-color: var(--accent-bdr);
+      color: var(--accent-l);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    .dot.on {
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .stats-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 16px;
+      border-radius: 99px;
+      border: 1px solid var(--b1);
+      background: var(--s1);
+      font-size: 11px;
+      color: var(--t3);
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-n {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--t1);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1;
+    }
+
+    .stat-l {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-top: 2px;
+    }
+
+    /* LAYOUT */
+    .layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--b1);
+      padding: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2.5rem 2.5rem 4rem;
+    }
+
+    /* SIDEBAR */
+    .snav-lbl {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--t3);
+      padding: 1rem 1.25rem 5px;
+      font-weight: 500;
+    }
+
+    .snav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 1.25rem;
+      border-radius: 0;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--t2);
+      transition: all 0.15s;
+      user-select: none;
+      border-left: 2px solid transparent;
+    }
+
+    .snav-item:hover {
+      color: var(--t1);
+      background: var(--b1);
+    }
+
+    .snav-item.act {
+      color: var(--accent-l);
+      background: var(--accent-bg);
+      border-left-color: var(--accent);
+    }
+
+    .snav-icon {
+      width: 18px;
+      text-align: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .snav-badge {
+      margin-left: auto;
+      font-size: 10px;
+      background: var(--accent-bg);
+      color: var(--accent-l);
+      padding: 1px 7px;
+      border-radius: 99px;
+      border: 1px solid var(--accent-bdr);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--b1);
+    }
+
+    .edu-branding {
+      font-size: 10px;
+      color: var(--t3);
+      line-height: 1.6;
+    }
+
+    .edu-branding b {
+      color: var(--t2);
+    }
+
+    /* PANELS */
+    .panel {
+      display: none;
+    }
+
+    .panel.act {
+      display: block;
+    }
+
+    /* PAGE HEADER */
+    .pg-hd {
+      margin-bottom: 2rem;
+    }
+
+    .pg-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+    }
+
+    .pg-sub {
+      font-size: 13px;
+      color: var(--t2);
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--s1);
+      border: 1px solid var(--b2);
+      border-radius: var(--r);
+      padding: 1.5rem;
+    }
+
+    .card+.card {
+      margin-top: 1rem;
+    }
+
+    /* FORM ELEMENTS */
+    .fl {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .lbl {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--t3);
+      font-weight: 500;
+    }
+
+    .lbl-act {
+      font-size: 11px;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--accent-l);
+      cursor: pointer;
+      font-weight: 400;
+    }
+
+    textarea.ta {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      background: var(--s2);
+      border: 1px solid var(--b2);
+      border-radius: var(--r-sm);
+      color: var(--t1);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      padding: 13px 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    textarea.ta:focus {
+      border-color: var(--accent-bdr);
+    }
+
+    textarea.ta::placeholder {
+      color: var(--t3);
+    }
+
+    .cc {
+      font-size: 10px;
+      color: var(--t3);
+      text-align: right;
+      margin-top: 3px;
+    }
+
+    /* CHIPS */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      cursor: pointer;
+      padding: 5px 13px;
+      border-radius: 99px;
+      font-size: 12px;
+      border: 1px solid var(--b2);
+      background: var(--s2);
+      color: var(--t2);
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .chip:hover {
+      color: var(--t1);
+      background: var(--s3);
+    }
+
+    .chip.cp {
+      background: var(--accent-bg);
+      color: var(--accent-l);
+      border-color: var(--accent-bdr);
+      font-weight: 500;
+    }
+
+    .chip.cl {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: rgba(0, 206, 201, 0.3);
+      font-weight: 500;
+    }
+
+    .chip.ct {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border-color: rgba(253, 203, 110, 0.3);
+      font-weight: 500;
+    }
+
+    /* CAMPAIGN INPUT */
+    .cinput {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--s2);
+      border: 1px solid var(--b2);
+      border-radius: var(--r-sm);
+      color: var(--t1);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .cinput:focus {
+      border-color: var(--accent-bdr);
+    }
+
+    .cinput::placeholder {
+      color: var(--t3);
+    }
+
+    /* GENERATE BUTTON */
+    .btn-gen {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--r-sm);
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-gen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn-gen:hover::before {
+      opacity: 1;
+    }
+
+    .btn-gen:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+    }
+
+    .btn-gen:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .btn-gen:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* RESULTS */
+    .result-wrap {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .rcard {
+      background: var(--s1);
+      border: 1px solid var(--b2);
+      border-radius: var(--r);
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+
+    .rcard:hover {
+      border-color: var(--accent-bdr);
+    }
+
+    .rcard-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--b1);
+    }
+
+    .p-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .p-ico {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .p-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--t1);
+    }
+
+    .p-chars {
+      font-size: 10px;
+      color: var(--t3);
+      margin-top: 1px;
+    }
+
+    .rcard-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .copy-btn {
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--b2);
+      background: transparent;
+      color: var(--t2);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent-bdr);
+      color: var(--accent-l);
+    }
+
+    .copy-btn.ok {
+      border-color: rgba(0, 206, 201, 0.4);
+      color: var(--green);
+    }
+
+    .regen-btn {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--b2);
+      background: transparent;
+      color: var(--t3);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .regen-btn:hover {
+      color: var(--t1);
+      border-color: var(--b3);
+    }
+
+    .rcard-body {
+      padding: 16px 18px;
+    }
+
+    .rtext {
+      font-size: 13.5px;
+      line-height: 1.8;
+      color: #c8c8e0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* SKELETON */
+    .skel {
+      height: 66px;
+      border-radius: var(--r-sm);
+      background: linear-gradient(90deg, var(--s2) 25%, var(--s3) 50%, var(--s2) 75%);
+      background-size: 200% 100%;
+      animation: sh 1.4s infinite;
+    }
+
+    @keyframes sh {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    /* EXPORT BUTTON */
+    .btn-export {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      border: 1px solid var(--b2);
+      border-radius: var(--r-sm);
+      background: transparent;
+      color: var(--t2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-export:hover {
+      background: var(--s2);
+      color: var(--t1);
+      border-color: var(--b3);
+    }
+
+    /* MODAL */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--s1);
+      border: 1px solid var(--b2);
+      border-radius: 18px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 420px;
+      margin: 1rem;
+    }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--t2);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .modal-sub a {
+      color: var(--accent-l);
+      text-decoration: none;
+    }
+
+    .steps-box {
+      background: var(--s2);
+      border-radius: var(--r-sm);
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: var(--t2);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .step:last-child {
+      margin: 0;
+    }
+
+    .sn {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      color: var(--accent-l);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .api-inp {
+      width: 100%;
+      padding: 11px 13px;
+      background: var(--bg);
+      border: 1px solid var(--b2);
+      border-radius: var(--r-sm);
+      color: var(--t1);
+      font-family: monospace;
+      font-size: 13px;
+      outline: none;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .api-inp:focus {
+      border-color: var(--accent-bdr);
+    }
+
+    .api-inp::placeholder {
+      color: var(--t3);
+    }
+
+    .mbts {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sv {
+      flex: 1;
+      padding: 11px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--r-sm);
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .btn-cl {
+      padding: 11px 16px;
+      font-size: 13px;
+      border: 1px solid var(--b2);
+      border-radius: var(--r-sm);
+      background: transparent;
+      color: var(--t2);
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.15s;
+    }
+
+    .btn-cl:hover {
+      color: var(--t1);
+    }
+
+    /* HISTORY */
+    .hist-item {
+      background: var(--s1);
+      border: 1px solid var(--b1);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .hist-item:hover {
+      border-color: var(--b2);
+      background: var(--s2);
+    }
+
+    .hmeta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--t3);
+      margin-bottom: 5px;
+    }
+
+    .hcamp {
+      font-size: 11px;
+      color: var(--accent-l);
+      margin-bottom: 3px;
+      font-weight: 500;
+    }
+
+    .hprev {
+      font-size: 13px;
+      color: #bbbbd0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 8px;
+    }
+
+    .hchips {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .mchip {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      border: 1px solid var(--b2);
+      color: var(--t3);
+    }
+
+    .del-btn {
+      font-size: 11px;
+      color: var(--red);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      opacity: 0.7;
+    }
+
+    .del-btn:hover {
+      opacity: 1;
+    }
+
+    .empty-st {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--t3);
+      font-size: 13px;
+      line-height: 2.2;
+    }
+
+    /* DASHBOARD */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .dcard {
+      background: var(--s1);
+      border: 1px solid var(--b2);
+      border-radius: var(--r);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dcard-lbl {
+      font-size: 11px;
+      color: var(--t3);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .dcard-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--t1);
+    }
+
+    .dcard-sub {
+      font-size: 11px;
+      color: var(--t2);
+    }
+
+    .dcard.accent {
+      border-color: var(--accent-bdr);
+      background: var(--accent-bg);
+    }
+
+    .dcard.accent .dcard-val {
+      color: var(--accent-l);
+    }
+
+    .activity-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--b1);
+    }
+
+    .activity-row:last-child {
+      border: none;
+    }
+
+    .act-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .act-text {
+      font-size: 13px;
+      color: var(--t2);
+    }
+
+    .act-time {
+      font-size: 11px;
+      color: var(--t3);
+      margin-left: auto;
+    }
+
+    /* TIPS */
+    .tip-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .tip-card {
+      background: var(--s1);
+      border: 1px solid var(--b2);
+      border-radius: var(--r);
+      padding: 1.25rem;
+    }
+
+    .tip-plat {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--t2);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tip-text {
+      font-size: 12px;
+      color: var(--t3);
+      line-height: 1.7;
+    }
+
+    /* ERROR */
+    .err-box {
+      padding: 14px 16px;
+      border-radius: var(--r-sm);
+      background: var(--red-bg);
+      border: 1px solid rgba(255, 118, 117, 0.2);
+      color: #ff9f9f;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* FREE BADGE */
+    .free-b {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid rgba(0, 206, 201, 0.25);
+      margin-left: 6px;
+    }
+
+    @media(max-width:700px) {
+      .main {
+        padding: 1.25rem;
+      }
+
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--b1);
+        padding: 0.75rem 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow-x: auto;
+      }
+
+      .snav-lbl {
+        display: none;
+      }
+
+      .snav-item {
+        padding: 6px 14px;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+      }
+
+      .snav-item.act {
+        border-bottom-color: var(--accent);
+        border-left: none;
+      }
+
+      .sidebar-footer {
+        display: none;
+      }
+
+      .dash-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        padding: 0 1rem;
+      }
+
+      .stats-pill {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">BA</div>
+      <div>
+        <span class="brand-name">BroadcastAI</span>
+        <span class="brand-tag">for Edu Tantr</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="stats-pill">
+        <div class="stat">
+          <div class="stat-n" id="totalGen">0</div>
+          <div class="stat-l">Generated</div>
+        </div>
+        <div style="width:1px;height:24px;background:var(--b2);"></div>
+        <div class="stat">
+          <div class="stat-n" id="totalPlat">0</div>
+          <div class="stat-l">Platforms</div>
+        </div>
+        <div style="width:1px;height:24px;background:var(--b2);"></div>
+        <div class="stat">
+          <div class="stat-n" id="totalCamp">0</div>
+          <div class="stat-l">Campaigns</div>
+        </div>
+      </div>
+      <button class="api-pill" onclick="openModal()">
+        <div class="dot" id="sDot"></div>
+        <span id="sTxt">Connect API</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-title">Connect Gemini AI <span class="free-b">✓ Free</span></div>
+      <div class="modal-sub">No payment. Just your Google account. 1,500 free uses per day.</div>
+      <div class="steps-box">
+        <div class="step">
+          <div class="sn">1</div><span>Open <a href="https://aistudio.google.com/apikey"
+              target="_blank">aistudio.google.com/apikey</a></span>
+        </div>
+        <div class="step">
+          <div class="sn">2</div><span>Sign in with Google → Click <b style="color:var(--t1)">Create API Key</b></span>
+        </div>
+        <div class="step">
+          <div class="sn">3</div><span>Copy the key and paste it below</span>
+        </div>
+      </div>
+      <input class="api-inp" id="apiInp" type="password" placeholder="AIza..." />
+      <div class="mbts">
+        <button class="btn-sv" onclick="saveKey()">Save & Connect</button>
+        <button class="btn-cl" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <div class="sidebar">
+      <div class="snav-lbl">Studio</div>
+      <div class="snav-item act" id="sn-dashboard" onclick="goPanel('dashboard',this)">
+        <span class="snav-icon">⬡</span> Dashboard
+      </div>
+      <div class="snav-item" id="sn-compose" onclick="goPanel('compose',this)">
+        <span class="snav-icon">✦</span> Compose
+      </div>
+      <div class="snav-item" id="sn-history" onclick="goPanel('history',this)">
+        <span class="snav-icon">◷</span> History
+        <span class="snav-badge" id="histBadge" style="display:none;"></span>
+      </div>
+      <div class="snav-item" id="sn-portfolio" onclick="goPanel('portfolio',this)">
+        <span class="snav-icon">⭐</span> Portfolio
+      </div>
+      <div class="snav-lbl">Tools</div>
+      <div class="snav-item" id="sn-tips" onclick="goPanel('tips',this)">
+        <span class="snav-icon">◈</span> Platform Tips
+      </div>
+      <div class="snav-item" id="sn-about" onclick="goPanel('about',this)">
+        <span class="snav-icon">⊙</span> About
+      </div>
+      <div class="sidebar-footer">
+        <div class="edu-branding">
+          Built for<br>
+          <b>Edu Tantr</b><br>
+          <span style="color:var(--t3);">Bridging Gaps, Building Bridges!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+
+      <div class="panel act" id="panel-dashboard">
+        <div class="pg-hd">
+          <div class="pg-title">Welcome to BroadcastAI</div>
+          <div class="pg-sub">Your AI-powered social media marketing studio — write once, broadcast everywhere.</div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dcard accent">
+            <div class="dcard-lbl">Total Generated</div>
+            <div class="dcard-val" id="db-total">0</div>
+            <div class="dcard-sub">messages created</div>
+          </div>
+          <div class="dcard">
+            <div class="dcard-lbl">Campaigns</div>
+            <div class="dcard-val" id="db-camps">0</div>
+            <div class="dcard-sub">unique campaigns</div>
+          </div>
+          <div class="dcard">
+            <div class="dcard-lbl">Platforms Used</div>
+            <div class="dcard-val" id="db-plats">8</div>
+            <div class="dcard-sub">platforms available</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="lbl" style="margin-bottom:1rem;">Quick Start</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div onclick="goPanel('compose',document.getElementById('sn-compose'))"
+              style="padding:1rem;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;"
+              onmouseover="this.style.borderColor='var(--accent-bdr)'" onmouseout="this.style.borderColor='var(--b2)'">
+              <div style="font-size:18px;margin-bottom:6px;">✦</div>
+              <div style="font-size:13px;font-weight:500;margin-bottom:3px;">New Campaign</div>
+              <div style="font-size:12px;color:var(--t3);">Write and broadcast a new message</div>
+            </div>
+            <div onclick="goPanel('history',document.getElementById('sn-history'))"
+              style="padding:1rem;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;"
+              onmouseover="this.style.borderColor='var(--accent-bdr)'" onmouseout="this.style.borderColor='var(--b2)'">
+              <div style="font-size:18px;margin-bottom:6px;">◷</div>
+              <div style="font-size:13px;font-weight:500;margin-bottom:3px;">View History</div>
+              <div style="font-size:12px;color:var(--t3);">Reload past campaigns</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="lbl" style="margin-bottom:1rem;">Recent Activity</div>
+          <div id="activityList">
+            <div class="empty-st" style="padding:1.5rem 0;">No activity yet. Start composing!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-compose">
+        <div class="pg-hd">
+          <div class="pg-title">Compose</div>
+          <div class="pg-sub">Write once. Instantly adapted for every platform.</div>
+        </div>
+
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="fl">
+            <div class="lbl">Campaign Name</div><span style="font-size:11px;color:var(--t3);">optional</span>
+          </div>
+          <input class="cinput" id="campName" placeholder='e.g. "Edu Tantr Course Launch — April 2026"' />
+        </div>
+
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="fl">
+            <div class="lbl">Your Message</div>
+          </div>
+          <textarea class="ta" id="msgInput" placeholder='Type your raw marketing message... e.g. "Join Edu Tantr' s
+            Digital Marketing course for just ₹999. Learn from experts and get job-ready in 30 days!"'></textarea>
+          <div class="cc" id="charCount">0 characters</div>
+        </div>
+
+        <div class="card" style="margin-bottom:1rem;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+            <div>
+              <div class="lbl" style="margin-bottom:8px;">Language</div>
+              <div class="chips" id="langChips"></div>
+            </div>
+            <div>
+              <div class="lbl" style="margin-bottom:8px;">Tone</div>
+              <div class="chips" id="toneChips"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="fl">
+            <div class="lbl">Platforms</div>
+            <span class="lbl-act" onclick="toggleAll()">Select All</span>
+          </div>
+          <div class="chips" id="platChips"></div>
+        </div>
+
+        <button class="btn-gen" id="genBtn" onclick="generate()">
+          ✦ &nbsp; Generate Platform Messages
+        </button>
+
+        <div class="result-wrap" id="results"></div>
+        <button class="btn-export" id="exportBtn" onclick="exportAll()" style="display:none;">↓ Export All as Text
+          File</button>
+      </div>
+
+      <div class="panel" id="panel-history">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;">
+          <div>
+            <div class="pg-title">Campaign History</div>
+            <div class="pg-sub">Click any campaign to reload it.</div>
+          </div>
+          <button class="btn-cl" onclick="clearAll()"
+            style="font-size:12px;color:var(--red);border-color:rgba(255,118,117,0.2);">Clear All</button>
+        </div>
+        <div id="histList"></div>
+      </div>
+
+      <div class="panel" id="panel-portfolio">
+        <style>
+          #port-wrapper {
+            background-color: #0d1117;
+            color: #f8f9fa;
+            border-radius: 16px;
+            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+          }
+
+          #port-wrapper h1,
+          #port-wrapper h2,
+          #port-wrapper h3 {
+            font-family: 'Outfit', sans-serif;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+          }
+
+          #port-wrapper .port-accent {
+            color: #d4af37;
+          }
+
+          #port-wrapper p {
+            color: #a3b3cc;
+            line-height: 1.8;
+            font-size: 14.5px;
+            margin-bottom: 20px;
+          }
+
+          #port-wrapper .port-section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          }
+
+          #port-wrapper .port-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+          }
+
+          #port-wrapper .hero-title {
+            font-size: 64px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+          }
+
+          #port-wrapper .hero-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: #d4af37;
+            bottom: -10px;
+            left: 0;
+          }
+
+          #port-wrapper .hero-subtitle {
+            font-size: 15px;
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            font-family: monospace;
+          }
+
+          #port-wrapper .hero-tagline {
+            font-size: 18px;
+            max-width: 650px;
+            color: #a3b3cc;
+            font-style: italic;
+          }
+
+          /* ARSENAL */
+          #port-wrapper .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+          }
+
+          #port-wrapper .tech-card {
+            background: #161b22;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 3px solid transparent;
+            transition: all 0.3s ease;
+          }
+
+          #port-wrapper .tech-card:hover {
+            border-top-color: #d4af37;
+            transform: translateY(-5px);
+          }
+
+          #port-wrapper .tech-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            color: #a3b3cc;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin: 4px 4px 0 0;
+          }
+
+          /* PROJECTS */
+          #port-wrapper .proj-card {
+            background: #161b22;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 3px solid #d4af37;
+            transition: all 0.25s;
+          }
+
+          #port-wrapper .proj-card:hover {
+            background: #1e242d;
+          }
+
+          #port-wrapper .proj-title {
+            font-size: 24px;
+            margin-bottom: 5px;
+          }
+
+          #port-wrapper .proj-role {
+            color: #d4af37;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-family: monospace;
+          }
+
+          /* CONTACT */
+          #port-wrapper .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #d4af37;
+            color: #0d1117;
+            padding: 14px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 15px;
+            transition: all 0.2s;
+            font-size: 15px;
+          }
+
+          #port-wrapper .contact-btn:hover {
+            background: #e0be52;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+          }
+
+          #port-wrapper .contact-btn-outline {
+            background: transparent;
+            color: #f8f9fa;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+
+          #port-wrapper .contact-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+          }
+
+          @media(max-width:800px) {
+            #port-wrapper .tech-grid {
+              grid-template-columns: 1fr;
+            }
+
+            #port-wrapper .text-grid {
+              grid-template-columns: 1fr !important;
+            }
+
+            #port-wrapper {
+              padding: 25px;
+            }
+
+            #port-wrapper .hero-title {
+              font-size: 42px;
+            }
+
+            .about-flex {
+              flex-direction: column;
+            }
+          }
+        </style>
+
+        <div id="port-wrapper">
+          <div class="port-section" style="padding-top:10px;">
+            <h1 class="hero-title">VIKASH S</h1>
+            <div class="hero-subtitle">B.Tech - Artificial Intelligence & Data Science Engineer <span
+                style="color:rgba(255,255,255,0.2); margin:0 8px;">|</span> Cloud Infrastructure Developer</div>
+            <p class="hero-tagline">"Forging the digital architecture of tomorrow through unyielding discipline and
+              cutting-edge technology."</p>
+          </div>
+
+          <div class="port-section">
+            <h2>About Me</h2>
+            <div class="about-flex" style="display:flex; gap:40px; align-items:center;">
+              <div style="flex:1;">
+                <p>I am a seasoned AI and Data Science professional with a proven track record of building
+                  production-ready systems. Driven by traditional work ethics and a relentless focus on tangible
+                  results, I specialize in engineering scalable cloud infrastructures and intelligent applications.</p>
+                <p>My approach bridges the gap between advanced theoretical models and practical, enterprise-grade
+                  solutions. I believe in hard truths, robust architecture, and delivering high-value impact through
+                  cutting-edge technology.</p>
+              </div>
+              <div
+                style="width:180px; height:180px; border: 2px solid rgba(212,175,55,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 30px rgba(212,175,55,0.1); flex-shrink:0; overflow:hidden;">
+                <img src="./photos for portfolio/IMG_6803.jpg" alt="Profile Photo"
+                  style="width:100%; height:100%; object-fit:cover; object-position:center top;" />
+              </div>
+            </div>
+          </div>
+
+          <div class="port-section">
+            <h2>Technical Arsenal</h2>
+            <div class="tech-grid">
+              <div class="tech-card">
+                <h3 style="font-size:18px; margin-bottom:15px;"><span class="port-accent"
+                    style="font-size:14px; opacity:0.8;">01.</span> AI & Backend</h3>
+                <div>
+                  <span class="tech-tag">Python</span><span class="tech-tag">FastAPI</span><span class="tech-tag">REST
+                    APIs</span><span class="tech-tag">JSON Handling</span><span class="tech-tag">LLM
+                    Integration</span><span class="tech-tag">OpenAI Client</span><span class="tech-tag">Prompt
+                    Engineering</span>
+                </div>
+              </div>
+              <div class="tech-card">
+                <h3 style="font-size:18px; margin-bottom:15px;"><span class="port-accent"
+                    style="font-size:14px; opacity:0.8;">02.</span> Cloud & Infra</h3>
+                <div>
+                  <span class="tech-tag">Docker</span><span class="tech-tag">Custom Environments</span><span
+                    class="tech-tag">Git</span><span class="tech-tag">GitHub</span><span class="tech-tag">Hugging Face
+                    Spaces</span>
+                </div>
+              </div>
+              <div class="tech-card">
+                <h3 style="font-size:18px; margin-bottom:15px;"><span class="port-accent"
+                    style="font-size:14px; opacity:0.8;">03.</span> Frontend & Web</h3>
+                <div>
+                  <span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Responsive
+                    SPAs</span><span class="tech-tag">Client Workflow</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="port-section">
+            <h2>Projects & Experience</h2>
+
+            <div class="proj-card">
+              <div class="proj-title">OpenEnv Customer Support Triage API</div>
+              <div class="proj-role">Solo Developer • Meta PyTorch Hackathon</div>
+              <p><strong class="port-accent">The Build:</strong> Engineered and deployed a production-grade cloud
+                environment from scratch for the Meta PyTorch Hackathon (via Scaler).</p>
+              <p><strong class="port-accent">The Tech:</strong> Developed a custom REST API using FastAPI, containerized
+                the architecture with Docker, and deployed it live on Hugging Face Spaces.</p>
+              <p><strong class="port-accent">The Impact:</strong> Built an automated ticket routing system that allows
+                AI models to dynamically categorize, prioritize, and assign customer support requests, drastically
+                reducing resolution latency.</p>
+            </div>
+
+            <div class="proj-card">
+              <div class="proj-title">Freelance Web Developer</div>
+              <div class="proj-role">Fiverr • Global Clients</div>
+              <p>Designed and built clean, highly responsive single-page websites for clients using raw HTML and CSS.
+              </p>
+              <p style="color:#78869c; font-size:13px; border-left:2px solid rgba(255,255,255,0.1); padding-left:12px;">
+                <em>Note: Currently scaling workflows and taking a strategic pause until May 2026 to focus heavily on
+                  advanced AI infrastructure.</em>
+              </p>
+            </div>
+          </div>
+
+          <div class="port-section text-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+            <div>
+              <h3>Current Focus</h3>
+              <p>Currently, I am actively architecting advanced machine learning pipelines and exploring emergent
+                generative AI paradigms for enterprise integration.</p>
+              <p>I am open to <strong class="port-accent" style="font-weight:400;">remote leadership or senior
+                  engineering roles</strong> and highly specialized collaborative opportunities where I can deploy my
+                skills in API development, data analysis, and robust AI engineering to solve complex real-world
+                bottlenecks.</p>
+            </div>
+            <div>
+              <h3>The Horizon</h3>
+              <p>The goal is absolute mastery of enterprise artificial intelligence systems. As I continue to grow, I am
+                aiming to establish the global benchmark for scalable AI architecture.</p>
+              <p>I am targeting global, high-impact consulting and leadership positions that demand engineering
+                excellence. I will continue to bridge the gap between raw data and actionable business intelligence,
+                building resilient systems that <strong class="port-accent" style="font-weight:400;">stand the test of
+                  time</strong>.</p>
+            </div>
+          </div>
+
+          <div class="port-section" style="text-align:center; padding-top:20px; border-bottom:none; margin-bottom:0;">
+            <h2 style="font-size:36px; margin-bottom:15px;">Ready to Engineer the Future?</h2>
+            <p style="margin-bottom:35px; max-width:550px; margin-left:auto; margin-right:auto; font-size:15px;">Active
+              on GitHub and always open to discussing advanced AI environments, custom deployments, or remote internship
+              opportunities.</p>
+            <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+              <a href="mailto:[vikash752008@icloud.com]" class="contact-btn">✉ Email Me directly</a>
+              <a href="https://github.com/vikashsaravanann" target="_blank" class="contact-btn contact-btn-outline">
+                <svg style="margin-right:8px;" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+                vikashsaravanann
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-tips">
+        <div class="pg-hd">
+          <div class="pg-title">Platform Tips</div>
+          <div class="pg-sub">How to win on each platform, especially for EdTech marketing in India.</div>
+        </div>
+        <div class="tip-grid" id="tipsGrid"></div>
+      </div>
+
+      <div class="panel" id="panel-about">
+        <div class="pg-hd">
+          <div class="pg-title">About BroadcastAI</div>
+          <div class="pg-sub">Built with purpose. Designed for Indian marketers.</div>
+        </div>
+        <div class="card">
+          <div style="font-size:13.5px;color:#c0c0d8;line-height:2;">
+            <span
+              style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:var(--t1);">BroadcastAI</span>
+            &nbsp;<span style="font-size:11px;color:var(--t3);">v2.0 — for Edu Tantr</span>
+            <br><br>
+            A standalone, browser-based marketing automation tool that rewrites one message into platform-perfect copies
+            for 8 social media channels — in 7 Indian languages, with 7 tone options.
+            <br><br>
+            <b style="color:var(--t1);">Powered by:</b> Google Gemini 2.0 Flash (Free API — ₹0 cost)<br>
+            <b style="color:var(--t1);">Platforms:</b> WhatsApp · Instagram · Facebook · LinkedIn · YouTube · X ·
+            Telegram · Threads<br>
+            <b style="color:var(--t1);">Languages:</b> English · Hindi · Tamil · Telugu · Kannada · Hinglish ·
+            Tanglish<br>
+            <b style="color:var(--t1);">Features:</b> Campaign naming · History (30 sessions) · Export to text ·
+            Platform tips · Dashboard<br>
+            <b style="color:var(--t1);">Privacy:</b> 100% local — no server, no tracking, no data leaves your device<br>
+            <b style="color:var(--t1);">Cost:</b> ₹0 forever
+            <br><br>
+            <div
+              style="padding:1rem;background:var(--accent-bg);border:1px solid var(--accent-bdr);border-radius:var(--r-sm);font-size:12px;color:var(--accent-l);">
+              Built as a contribution to <b>Edu Tantr</b> — Bridging Gaps, Building Bridges! 🎓<br>
+              Designed to help the Edu Tantr marketing team broadcast course launches, offers, and updates across all
+              platforms in seconds.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // DATA
+    const PLATS = [
+      { id: "whatsapp", name: "WhatsApp", em: "W", color: "#25D366", tip: "Keep it short, personal and conversational. Use 1-2 emojis. End with a direct action like 'Reply YES' or 'Click the link below'. Works great for course announcements and offer alerts.", best: "Course alerts, limited offers, personal invites" },
+      { id: "instagram", name: "Instagram", em: "IG", color: "#E1306C", tip: "Lead with a visual hook in the first line. Use line breaks for readability. Add 4-6 targeted hashtags at the end. Emoji usage should be high and expressive. Stories-style writing works well.", best: "Visual campaigns, testimonials, course promos" },
+      { id: "facebook", name: "Facebook", em: "FB", color: "#1877F2", tip: "Friendly, community-oriented tone. Medium length (3-5 sentences). Ask a question to drive engagement. Include a clear CTA button text like 'Register Now' or 'Learn More'.", best: "Event announcements, community posts, ads" },
+      { id: "linkedin", name: "LinkedIn", em: "LI", color: "#0A66C2", tip: "Professional and value-first. Start with a bold insight or statistic. No slang, no excessive emoji. End with a question or thought-provoking CTA. Great for B2B and recruitment posts.", best: "Hiring posts, industry insights, career courses" },
+      { id: "youtube", name: "YouTube", em: "YT", color: "#FF0000", tip: "Write as a community post or video description. Hook in the first sentence. Use numbered lists or bullet points. End with a subscribe or comment CTA. Great for course launch videos.", best: "Course previews, video descriptions, updates" },
+      { id: "twitter", name: "X/Twitter", em: "X", color: "#aaa", tip: "Under 280 characters. One punchy idea per tweet. Use 1-2 relevant hashtags. Strong opening word. No filler. Works best with urgency or humor.", best: "Flash sales, trending topics, quick updates" },
+      { id: "telegram", name: "Telegram", em: "TG", color: "#229ED9", tip: "Direct broadcast style. Can be longer than WhatsApp. Include links boldly. Use bold text for key info. Great for sending to course channels and groups.", best: "Channel broadcasts, detailed course info, links" },
+      { id: "threads", name: "Threads", em: "TH", color: "#a0a0b0", tip: "Casual, relatable, conversational. Like texting to a friend. Short bursts of thought. No formal language. Works well with student audiences.", best: "Student engagement, casual updates, opinions" },
+    ];
+    const LANGS = [
+      { id: "english", name: "English" },
+      { id: "hindi", name: "Hindi" },
+      { id: "tamil", name: "Tamil" },
+      { id: "telugu", name: "Telugu" },
+      { id: "kannada", name: "Kannada" },
+      { id: "hinglish", name: "Hinglish" },
+      { id: "tanglish", name: "Tanglish" },
+    ];
+    const TONES = [
+      { id: "soft", name: "Soft Launch" },
+      { id: "aggressive", name: "Aggressive Promo" },
+      { id: "professional", name: "Professional" },
+      { id: "funny", name: "Funny & Witty" },
+      { id: "emotional", name: "Emotional" },
+      { id: "urgent", name: "Urgent / FOMO" },
+      { id: "student", name: "Student Friendly" },
+    ];
+
+    let selPlats = new Set(["whatsapp", "instagram", "facebook", "linkedin"]);
+    let selLang = "english";
+    let selTone = "soft";
+    let history = JSON.parse(localStorage.getItem("bai_v2_hist") || "[]");
+    let lastResults = null;
+
+    // RENDER
+    function renderPlats() {
+      document.getElementById("platChips").innerHTML = PLATS.map(p =>
+        `<div class="chip ${selPlats.has(p.id) ? 'cp' : ''}" onclick="togPlat('${p.id}')">${p.name}</div>`
+      ).join("");
+    }
+    function togPlat(id) { selPlats.has(id) ? selPlats.delete(id) : selPlats.add(id); renderPlats(); }
+    function toggleAll() { if (selPlats.size === PLATS.length) selPlats.clear(); else PLATS.forEach(p => selPlats.add(p.id)); renderPlats(); }
+
+    function renderLangs() {
+      document.getElementById("langChips").innerHTML = LANGS.map(l =>
+        `<div class="chip ${selLang === l.id ? 'cl' : ''}" onclick="setLang('${l.id}')">${l.name}</div>`
+      ).join("");
+    }
+    function setLang(id) { selLang = id; renderLangs(); }
+
+    function renderTones() {
+      document.getElementById("toneChips").innerHTML = TONES.map(t =>
+        `<div class="chip ${selTone === t.id ? 'ct' : ''}" onclick="setTone('${t.id}')">${t.name}</div>`
+      ).join("");
+    }
+    function setTone(id) { selTone = id; renderTones(); }
+
+    renderPlats(); renderLangs(); renderTones();
+
+    document.getElementById("msgInput").addEventListener("input", e => {
+      document.getElementById("charCount").textContent = e.target.value.length + " characters";
+    });
+
+    // TIPS
+    function renderTips() {
+      document.getElementById("tipsGrid").innerHTML = PLATS.map(p => `
+    <div class="tip-card">
+      <div class="tip-plat">
+        <div class="p-ico" style="width:22px;height:22px;border-radius:5px;background:${p.color}22;color:${p.color};font-size:8px;">${p.em}</div>
+        ${p.name}
+      </div>
+      <div class="tip-text">${p.tip}<br><br>
+        <span style="color:var(--accent-l);font-size:11px;">Best for: ${p.best}</span>
+      </div>
+    </div>
+  `).join("");
+    }
+    renderTips();
+
+    // PANEL NAV
+    function goPanel(name, el) {
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("act"));
+      document.querySelectorAll(".snav-item").forEach(n => n.classList.remove("act"));
+      document.getElementById("panel-" + name).classList.add("act");
+      el.classList.add("act");
+      if (name === "history") renderHistory();
+      if (name === "dashboard") renderDashboard();
+    }
+
+    // STATS
+    function updateStats() {
+      const total = history.reduce((a, h) => a + (h.platIds ? h.platIds.length : 0), 0);
+      const camps = history.length;
+      document.getElementById("totalGen").textContent = total;
+      document.getElementById("totalCamp").textContent = camps;
+      document.getElementById("totalPlat").textContent = PLATS.length;
+      document.getElementById("db-total").textContent = total;
+      document.getElementById("db-camps").textContent = camps;
+      const hb = document.getElementById("histBadge");
+      if (camps > 0) { hb.style.display = ""; hb.textContent = camps; } else { hb.style.display = "none"; }
+    }
+
+    // API KEY
+    function openModal() { document.getElementById("apiInp").value = localStorage.getItem("bai_v2_key") || ""; document.getElementById("modal").classList.add("open"); }
+    function closeModal() { document.getElementById("modal").classList.remove("open"); }
+    function saveKey() {
+      const k = document.getElementById("apiInp").value.trim();
+      if (!k) return;
+      localStorage.setItem("bai_v2_key", k);
+      updateKey(true); closeModal();
+    }
+    function updateKey(ok) {
+      document.getElementById("sDot").className = "dot" + (ok ? " on" : "");
+      document.getElementById("sTxt").textContent = ok ? "Gemini Connected" : "Connect API";
+    }
+    if (localStorage.getItem("bai_v2_key")) updateKey(true);
+
+    // GENERATE
+    async function generate() {
+      const key = localStorage.getItem("bai_v2_key");
+      if (!key) { openModal(); return; }
+      const msg = document.getElementById("msgInput").value.trim();
+      if (!msg) { alert("Please type your message."); return; }
+      if (!selPlats.size) { alert("Select at least one platform."); return; }
+
+      const btn = document.getElementById("genBtn");
+      btn.disabled = true; btn.textContent = "⟳  Generating...";
+      document.getElementById("exportBtn").style.display = "none";
+      lastResults = null;
+
+      const platList = PLATS.filter(p => selPlats.has(p.id));
+      const resultsDiv = document.getElementById("results");
+
+      resultsDiv.innerHTML = platList.map(p => `
+    <div class="rcard" id="rc-${p.id}">
+      <div class="rcard-top">
+        <div class="p-info">
+          <div class="p-ico" style="background:${p.color}22;color:${p.color};">${p.em}</div>
+          <div><div class="p-name">${p.name}</div><div class="p-chars">Generating...</div></div>
+        </div>
+      </div>
+      <div class="rcard-body"><div class="skel"></div></div>
+    </div>`
+      ).join("");
+
+      const langName = LANGS.find(l => l.id === selLang).name;
+      const toneName = TONES.find(t => t.id === selTone).name;
+      const platDescs = platList.map(p => `- ${p.name} (key:"${p.id}"): ${p.tip}`).join("\n");
+      const camp = document.getElementById("campName").value.trim() || "General Campaign";
+
+      const prompt = `You are a social media marketing expert for Indian EdTech companies.
+
+Campaign: "${camp}"
+Message: "${msg}"
+
+Language: ${langName}
+${selLang === "hinglish" ? "Write naturally mixing Hindi words (Roman script) with English. Example: 'Yaar, ye course miss mat karna!'" : ''}
+${selLang === "tanglish" ? "Write naturally mixing Tamil words (Roman script) with English. Example: 'Namba course-a join pannu, life-a change aagum!'" : ''}
+${selLang === "hindi" ? "Use Devanagari script." : ""}
+${selLang === "tamil" ? "Use Tamil script." : ""}
+
+Tone: ${toneName}
+
+Platform rules:
+${platDescs}
+
+Return ONLY a valid JSON object. No markdown. No extra text. Keys are platform IDs below.
+Keys: ${platList.map(p => p.id).join(", ")}`;
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85, maxOutputTokens: 800 } })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        let raw = data.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(raw);
+        lastResults = parsed;
+
+        platList.forEach(p => {
+          const card = document.getElementById("rc-" + p.id);
+          if (!card) return;
+          const text = parsed[p.id] || "Could not generate.";
+          const chars = text.length;
+          card.innerHTML = `
+        <div class="rcard-top">
+          <div class="p-info">
+            <div class="p-ico" style="background:${p.color}22;color:${p.color};">${p.em}</div>
+            <div><div class="p-name">${p.name}</div><div class="p-chars">${chars} characters</div></div>
+          </div>
+          <div class="rcard-actions">
+            <button class="copy-btn" onclick="doCopy(this,'${encodeURIComponent(text)}')">Copy</button>
+          </div>
+        </div>
+        <div class="rcard-body"><div class="rtext">${text}</div></div>`;
+        });
+
+        saveHist(camp, msg, selLang, selTone, platList.map(p => p.id), parsed);
+        document.getElementById("exportBtn").style.display = "block";
+        updateStats();
+        renderActivity(camp, selLang, selTone, platList.length);
+
+      } catch (err) {
+        resultsDiv.innerHTML = `<div class="err-box"><b>Error:</b> ${err.message}<br><br>Check your API key — open Settings to update it.</div>`;
+      }
+      btn.disabled = false; btn.textContent = "✦  Generate Platform Messages";
+    }
+
+    function doCopy(btn, enc) {
+      navigator.clipboard.writeText(decodeURIComponent(enc)).then(() => {
+        btn.textContent = "Copied!"; btn.classList.add("ok");
+        setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("ok"); }, 2000);
+      });
+    }
+
+    // EXPORT
+    function exportAll() {
+      if (!lastResults) return;
+      const camp = document.getElementById("campName").value || "Campaign";
+      const msg = document.getElementById("msgInput").value;
+      const langName = LANGS.find(l => l.id === selLang).name;
+      const toneName = TONES.find(t => t.id === selTone).name;
+      let out = `BROADCASTAI — EXPORT\n${"=".repeat(50)}\nCampaign: ${camp}\nLanguage: ${langName} | Tone: ${toneName}\nDate: ${new Date().toLocaleString("en-IN")}\nOriginal: ${msg}\n${"=".repeat(50)}\n\n`;
+      PLATS.forEach(p => {
+        if (lastResults[p.id]) {
+          out += `[${p.name.toUpperCase()}]\n${lastResults[p.id]}\n\n${"—".repeat(40)}\n\n`;
+        }
+      });
+      const blob = new Blob([out], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `BroadcastAI_${camp.replace(/\s+/g, "_")}_${Date.now()}.txt`;
+      a.click();
+    }
+
+    // ACTIVITY
+    function renderActivity(camp, lang, tone, platCount) {
+      const list = document.getElementById("activityList");
+      const acts = JSON.parse(localStorage.getItem("bai_acts") || "[]");
+      acts.unshift({ camp, lang, tone, platCount, time: new Date().toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }) });
+      if (acts.length > 8) acts.splice(8);
+      localStorage.setItem("bai_acts", JSON.stringify(acts));
+      renderActivityList(acts);
+    }
+    function renderActivityList(acts) {
+      const list = document.getElementById("activityList");
+      if (!acts.length) { list.innerHTML = `<div class="empty-st" style="padding:1.5rem 0;">No activity yet. Start composing!</div>`; return; }
+      list.innerHTML = acts.map(a => `
+    <div class="activity-row">
+      <div class="act-dot"></div>
+      <div class="act-text"><b style="color:var(--t1);">${a.camp}</b> — ${a.platCount} platforms · ${a.lang} · ${a.tone}</div>
+      <div class="act-time">${a.time}</div>
+    </div>`
+      ).join("");
+    }
+
+    function renderDashboard() {
+      updateStats();
+      const acts = JSON.parse(localStorage.getItem("bai_acts") || "[]");
+      renderActivityList(acts);
+    }
+
+    // HISTORY
+    function saveHist(camp, msg, lang, tone, platIds, results) {
+      const item = { id: Date.now(), camp, msg, lang, tone, platIds, results, time: new Date().toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) };
+      history.unshift(item);
+      if (history.length > 30) history = history.slice(0, 30);
+      localStorage.setItem("bai_v2_hist", JSON.stringify(history));
+    }
+
+    function renderHistory() {
+      const el = document.getElementById("histList");
+      if (!history.length) { el.innerHTML = `<div class="empty-st">◷<br>No campaigns yet.<br>Start from Compose.</div>`; return; }
+      el.innerHTML = history.map(h => `
+    <div class="hist-item" onclick="loadHist(${h.id})">
+      <div class="hmeta"><span>${h.time}</span><button class="del-btn" onclick="event.stopPropagation();delHist(${h.id})">Delete</button></div>
+      ${h.camp && h.camp !== "General Campaign" ? `<div class="hcamp">${h.camp}</div>` : ""}
+      <div class="hprev">${h.msg}</div>
+      <div class="hchips">
+        <span class="mchip">${h.lang}</span>
+        <span class="mchip">${h.tone}</span>
+        ${h.platIds.map(p => `<span class="mchip">${p}</span>`).join("")}
+      </div>
+    </div>`
+      ).join("");
+    }
+
+    function loadHist(id) {
+      const h = history.find(x => x.id === id);
+      if (!h) return;
+      document.getElementById("msgInput").value = h.msg;
+      document.getElementById("campName").value = h.camp || "";
+      document.getElementById("charCount").textContent = h.msg.length + " characters";
+      selLang = h.lang; selTone = h.tone; selPlats = new Set(h.platIds);
+      renderPlats(); renderLangs(); renderTones();
+      lastResults = h.results;
+
+      const platList = PLATS.filter(p => h.platIds.includes(p.id));
+      document.getElementById("results").innerHTML = platList.map(p => {
+        const text = h.results[p.id] || "";
+        return `<div class="rcard">
+      <div class="rcard-top">
+        <div class="p-info">
+          <div class="p-ico" style="background:${p.color}22;color:${p.color};">${p.em}</div>
+          <div><div class="p-name">${p.name}</div><div class="p-chars">${text.length} characters</div></div>
+        </div>
+        <div class="rcard-actions">
+          <button class="copy-btn" onclick="doCopy(this,'${encodeURIComponent(text)}')">Copy</button>
+        </div>
+      </div>
+      <div class="rcard-body"><div class="rtext">${text}</div></div>
+    </div>`;
+      }).join("");
+
+      document.getElementById("exportBtn").style.display = "block";
+      goPanel("compose", document.getElementById("sn-compose"));
+    }
+
+    function delHist(id) { history = history.filter(x => x.id !== id); localStorage.setItem("bai_v2_hist", JSON.stringify(history)); updateStats(); renderHistory(); }
+    function clearAll() { if (confirm("Clear all campaign history?")) { history = []; localStorage.removeItem("bai_v2_hist"); updateStats(); renderHistory(); } }
+
+    // INIT
+    updateStats();
+    renderDashboard();
+  </script>
+</body>
+
+</html>
