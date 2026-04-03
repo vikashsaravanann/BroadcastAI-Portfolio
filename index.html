@@ -732,6 +732,33 @@
       margin-top: 1px;
     }
 
+    .prov-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 1rem;
+      background: var(--s2);
+      padding: 4px;
+      border-radius: var(--r-sm);
+    }
+
+    .prov-tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--t3);
+      cursor: pointer;
+      border-radius: var(--r-sm);
+      transition: all 0.2s;
+    }
+
+    .prov-tab.act {
+      background: var(--s1);
+      color: var(--t1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
     .api-inp {
       width: 100%;
       padding: 11px 13px;
@@ -1090,15 +1117,21 @@
 
   <div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="modal">
-      <div class="modal-title">Connect Gemini AI <span class="free-b">✓ Free</span></div>
-      <div class="modal-sub">No payment. Just your Google account. 1,500 free uses per day.</div>
+      <div class="modal-title">Connect AI Provider</div>
+      <div class="modal-sub">Choose your preferred AI and bring your own API key.</div>
+      
+      <div class="prov-tabs">
+        <div class="prov-tab act" id="pt-gemini" onclick="setProvider('gemini')">Gemini</div>
+        <div class="prov-tab" id="pt-groq" onclick="setProvider('groq')">Groq</div>
+        <div class="prov-tab" id="pt-openai" onclick="setProvider('openai')">OpenAI</div>
+      </div>
+
       <div class="steps-box">
         <div class="step">
-          <div class="sn">1</div><span>Open <a href="https://aistudio.google.com/apikey"
-              target="_blank">aistudio.google.com/apikey</a></span>
+          <div class="sn">1</div><span id="st-link">Open <a href="https://aistudio.google.com/apikey" target="_blank" id="st-a">aistudio.google.com/apikey</a></span>
         </div>
         <div class="step">
-          <div class="sn">2</div><span>Sign in with Google → Click <b style="color:var(--t1)">Create API Key</b></span>
+          <div class="sn">2</div><span id="st-auth">Sign in with Google → Click <b style="color:var(--t1)">Create API Key</b></span>
         </div>
         <div class="step">
           <div class="sn">3</div><span>Copy the key and paste it below</span>
@@ -1738,24 +1771,71 @@
       if (camps > 0) { hb.style.display = ""; hb.textContent = camps; } else { hb.style.display = "none"; }
     }
 
+    // API PROVIDER CONFIG
+    const PROVIDERS = {
+      gemini: {
+        name: "Gemini", 
+        linkUrl: "https://aistudio.google.com/apikey", 
+        linkText: "aistudio.google.com/apikey", 
+        authText: "Sign in with Google", 
+        placeholder: "AIza..."
+      },
+      groq: {
+        name: "Groq", 
+        linkUrl: "https://console.groq.com/keys", 
+        linkText: "console.groq.com/keys", 
+        authText: "Log in", 
+        placeholder: "gsk_..."
+      },
+      openai: {
+        name: "OpenAI", 
+        linkUrl: "https://platform.openai.com/api-keys", 
+        linkText: "platform.openai.com/api-keys", 
+        authText: "Log in", 
+        placeholder: "sk-..."
+      }
+    };
+    
+    let activeProv = localStorage.getItem("bai_provider") || "gemini";
+    if (localStorage.getItem("bai_v2_key") && !localStorage.getItem("bai_key_gemini")) {
+      localStorage.setItem("bai_key_gemini", localStorage.getItem("bai_v2_key"));
+    }
+
+    function setProvider(prov) {
+      activeProv = prov;
+      localStorage.setItem("bai_provider", prov);
+      document.querySelectorAll(".prov-tab").forEach(t => t.classList.remove("act"));
+      document.getElementById("pt-" + prov).classList.add("act");
+      
+      document.getElementById("st-a").href = PROVIDERS[prov].linkUrl;
+      document.getElementById("st-a").textContent = PROVIDERS[prov].linkText;
+      document.getElementById("st-auth").innerHTML = `${PROVIDERS[prov].authText} → Click <b style="color:var(--t1)">Create API Key</b>`;
+      document.getElementById("apiInp").placeholder = PROVIDERS[prov].placeholder;
+      document.getElementById("apiInp").value = localStorage.getItem("bai_key_" + prov) || "";
+    }
+
     // API KEY
-    function openModal() { document.getElementById("apiInp").value = localStorage.getItem("bai_v2_key") || ""; document.getElementById("modal").classList.add("open"); }
+    function openModal() { 
+      setProvider(activeProv);
+      document.getElementById("modal").classList.add("open"); 
+    }
     function closeModal() { document.getElementById("modal").classList.remove("open"); }
     function saveKey() {
       const k = document.getElementById("apiInp").value.trim();
       if (!k) return;
-      localStorage.setItem("bai_v2_key", k);
+      localStorage.setItem("bai_key_" + activeProv, k);
       updateKey(true); closeModal();
     }
     function updateKey(ok) {
       document.getElementById("sDot").className = "dot" + (ok ? " on" : "");
-      document.getElementById("sTxt").textContent = ok ? "Gemini Connected" : "Connect API";
+      let provName = PROVIDERS[activeProv].name;
+      document.getElementById("sTxt").textContent = ok ? `${provName} Connected` : "Connect API";
     }
-    if (localStorage.getItem("bai_v2_key")) updateKey(true);
+    if (localStorage.getItem("bai_key_" + activeProv)) updateKey(true);
 
     // GENERATE
     async function generate() {
-      const key = localStorage.getItem("bai_v2_key");
+      const key = localStorage.getItem("bai_key_" + activeProv);
       if (!key) { openModal(); return; }
       const msg = document.getElementById("msgInput").value.trim();
       if (!msg) { alert("Please type your message."); return; }
@@ -1806,15 +1886,48 @@ Return ONLY a valid JSON object. No markdown. No extra text. Keys are platform I
 Keys: ${platList.map(p => p.id).join(", ")}`;
 
       try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85, maxOutputTokens: 800 } })
-        });
-        const data = await res.json();
-        if (data.error) throw new Error(data.error.message);
-        let raw = data.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
-        const parsed = JSON.parse(raw);
+        let parsed = null;
+
+        if (activeProv === "gemini") {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85, maxOutputTokens: 800 } })
+          });
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message);
+          let raw = data.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
+          parsed = JSON.parse(raw);
+        } else if (activeProv === "groq") {
+          const res = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
+            body: JSON.stringify({
+              model: "llama3-70b-8192",
+              messages: [{ role: "user", content: prompt }],
+              temperature: 0.7,
+              response_format: { type: "json_object" }
+            })
+          });
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message);
+          parsed = JSON.parse(data.choices[0].message.content);
+        } else if (activeProv === "openai") {
+          const res = await fetch(`https://api.openai.com/v1/chat/completions`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
+            body: JSON.stringify({
+              model: "gpt-4o-mini",
+              messages: [{ role: "user", content: prompt }],
+              temperature: 0.7,
+              response_format: { type: "json_object" }
+            })
+          });
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message);
+          parsed = JSON.parse(data.choices[0].message.content);
+        }
+
         lastResults = parsed;
 
         platList.forEach(p => {
